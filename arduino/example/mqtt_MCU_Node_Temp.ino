@@ -111,7 +111,7 @@ void setup()
 //    printf("7. mqtt Delete subscribe Temp Failed\n");
 //    while(1);
 //  }
-//  
+
 }
 
 void loop()
