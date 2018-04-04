@@ -1,2 +1,3 @@
-Edge-IoT-EMÀÇ pythonÀ» ÀÌ¿ëÇÑ ThingPlug ¶óÀÌºê·¯¸®
-Edge-MCU-NodeÀÇ C¸¦ ÀÌ¿ëÇÑ ThingPlug ¶óÀÌºê·¯¸®
+Edge-IoT-EMì˜ pythonì„ ì´ìš©í•œ ThingPlug ë¼ì´ë¸ŒëŸ¬ë¦¬
+
+Edge-MCU-Nodeì˜ Cë¥¼ ì´ìš©í•œ ThingPlug ë¼ì´ë¸ŒëŸ¬ë¦¬
