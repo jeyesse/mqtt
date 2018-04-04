@@ -4,6 +4,8 @@
 #include <PubSubClient.h>
 #include <string.h>
 #include <stdlib.h>
+#include <map>
+#include <string>
 
 #define TRUE      1
 #define FALSE     0
@@ -15,6 +17,7 @@
 #define MQTTCLIENT_SUCCESS  0
 #define MQTTCLIENT_FAILURE  1
 
+using namespace std;
 
 /* MQTT Process Steps */
 enum MqttStep {

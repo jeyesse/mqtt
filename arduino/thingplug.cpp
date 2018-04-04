@@ -1,6 +1,11 @@
 #include <Arduino.h>
 #include "thingplug.h"
 
+typedef void (*mqttCallback)(char*);
+using namespace std;
+std::map<string, mqttCallback> callback;
+std::map<string, mqttCallback>::iterator iter;
+
 /* The pathes will be created dynamically */
 char mqttPubTopic[BUF_SIZE_SMALL] = "";
 char mqttSubTopic[BUF_SIZE_SMALL] = "";
@@ -22,7 +27,7 @@ char strExt[BUF_SIZE_SMALL]   = "";
 char strDkey[BUF_SIZE_SMALL]    = "";
 char dataName[BUF_SIZE_SMALL]   = "";
 char dataValue[BUF_SIZE_SMALL]  = "";
-void (*mqttCallback)(char*) = NULL;
+//void (*mqttCallback)(char*) = NULL;
 
 
 static char address[BUF_SIZE_SMALL]    = "";
@@ -281,7 +286,24 @@ void callbackArrived(char * topicName, uint8_t * payload, unsigned int len)
     // Notification from ThingPlug Server
     char strCon[128] = "";
     rc = parseValue(strCon, (char*)payload, len, "con");
-    if(rc==MQTTCLIENT_SUCCESS && mqttCallback!=NULL) mqttCallback(strCon);
+
+    char strRoute[128] = "";
+    char notifySubName[128] = "";
+    parseValue(strRoute, (char*)payload, len, "sr");
+    char *pStrRoute = strtok(strRoute, "-");
+    while (pStrRoute) {
+      strncpy(notifySubName, pStrRoute, 128);
+      pStrRoute = strtok(NULL, "-");
+    }
+    //iter를 이용한 반환 필요
+    mqttCallback callbackFunction;
+    iter = callback.find(notifySubName);
+    if(iter != callback.end()) {
+      callbackFunction = callback[notifySubName];
+    }
+    else 
+      callbackFunction = NULL;
+    if(rc==MQTTCLIENT_SUCCESS && callbackFunction!=NULL) callbackFunction(strCon);
   } 
 
   return; // Do Not Need to be recalled.
@@ -475,7 +497,7 @@ int mqttCreateContentInstance(PubSubClient* client, char* con, char * dataValue)
 
 int mqttSubscribe(PubSubClient* client, char* targetDevId, char* con, void (*fp)(char *))
 {
-    mqttCallback = fp;
+    //mqttCallback = fp;
 
     int rc = 0;
 
@@ -487,6 +509,8 @@ int mqttSubscribe(PubSubClient* client, char* targetDevId, char* con, void (*fp)
     strcat(notifySubName, container);
     strcat(notifySubName, deviceId);
     
+    callback.insert(pair<string, mqttCallback>(notifySubName, fp));
+
     sprintf(mqttRemoteCSE, frameMqttRemoteCSE, APP_EUI, targetDeviceId);
     sprintf(mqttContainer, frameMqttContainer, mqttRemoteCSE, container);
 
