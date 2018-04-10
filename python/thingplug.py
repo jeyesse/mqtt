@@ -573,7 +573,7 @@ def mqttSubscribe(client, targetDeviceId, container, passWord, callback):
 	global mqttDictCallback
 
 	strRi = generateRi(deviceId)
-	notifySubName = container+deviceId
+	notifySubName = container+targetDeviceId
 	print(notifySubName)
 	mqttDictCallback[notifySubName] = callback
 	
@@ -610,7 +610,7 @@ def mqttDeleteSubscribe(client, targetDeviceId, passWord, container):
 	global step
 
 	strRi = generateRi(deviceId)
-	notifySubName = container+deviceId
+	notifySubName = container+targetDeviceId
 	mqttRemoteCSE = frameMqttRemoteCSE.format(APP_EUI, targetDeviceId)
 	mqttContainer = frameMqttContainer.format(mqttRemoteCSE, container)
 	mqttSubscription = frameMqttSubscription.format(mqttContainer, notifySubName)
