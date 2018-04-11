@@ -507,7 +507,7 @@ int mqttSubscribe(PubSubClient* client, char* targetDevId, char* con, void (*fp)
     strcpy(targetDeviceId, targetDevId);
     strcpy(container, con);
     strcat(notifySubName, container);
-    strcat(notifySubName, deviceId);
+    strcat(notifySubName, targetDeviceId);
     
     callback.insert(pair<string, mqttCallback>(notifySubName, fp));
 
@@ -533,7 +533,7 @@ int mqttDeleteSubscribe(PubSubClient* client, char* targetDevId, char* con)
     char notifySubName[BUF_SIZE_SMALL] = "";
     strcpy(container, con);
     strcat(notifySubName, container);
-    strcat(notifySubName, deviceId);
+    strcat(notifySubName, targetDeviceId);
 
     strcpy(targetDeviceId, targetDevId);
     sprintf(mqttRemoteCSE, frameMqttRemoteCSE, APP_EUI, targetDeviceId);
