@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <thingplug.h>
+#include "thingPlug.h"
 
 typedef void (*mqttCallback)(char*);
 using namespace std;
@@ -611,7 +611,6 @@ int mqttGetLatest(PubSubClient* client, char* targetDevId, char* con, void(*fp)(
 
     printf("latestData : %s \t %s\n", strRi, notificationName);
     callback.insert(pair<string, mqttCallback>(notificationName, fp));
-    callback[notificationName] = fp;
 
     sprintf(mqttRemoteCSE, frameMqttRemoteCSE, APP_EUI, targetDeviceId);
     sprintf(mqttContainer, frameMqttContainer, mqttRemoteCSE, container);

@@ -72,3 +72,4 @@ int mqttDeleteSubscribe(PubSubClient* client, char* targetDevId, char* con);
 int mqttGetLatest(PubSubClient* client, char* targetdevId, char* con, void(*fp)(char*));
 
 #endif
+
